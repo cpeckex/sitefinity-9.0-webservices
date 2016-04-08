@@ -20,7 +20,7 @@
     <![endif]-->
     <script type="text/javascript" src="js\jquery-1.12.3.js"></script>
     <script type="text/javascript" src="js\simple-jquery.js"></script>
-    <script type="text/javascript" src="sitefinity-webservices-sdk/sitefinity-webservices-sdk.min.js"></script> 
+    <!--<script type="text/javascript" src="sitefinity-webservices-sdk/sitefinity-webservices-sdk.min.js"></script> -->
 </head>
 <body>
     <script>
@@ -45,7 +45,6 @@
                 })
                 .done(function(newsData){
                     var ObjUl = $('<ul></ul>');
-                    ObjUl.addClass("ui-menu-item");
                                                 
                     $.each(newsData.value, function(i, field){
                         var Objli = $('<li></li>');

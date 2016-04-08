@@ -19,23 +19,17 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script type="text/javascript" src="js\jquery-1.12.3.js"></script>
+    <!--<script type="text/javascript" src="js\simple-jquery.js"></script>-->
     <script type="text/javascript" src="sitefinity-webservices-sdk/sitefinity-webservices-sdk.min.js"></script>
 </head>
 <body>
     <script>
-        
-        function loginAndGetData(){
+        $(function(){
             var sf = new Sitefinity({
-                serviceUrl: 'http://quantum.sitefinity.com/api/authenticated'
+                serviceUrl: 'http://quantum.sitefinity.com/api/default'
             });
             
-            sf.authentication.login($('#username').val(), $('#password').val(), function(){
-                    getData(sf);
-            });
-        }
-            
-        function getData(sfObj){
-            var sfDataObj = sfObj.data({urlName: "newsitems"});
+            var sfDataObj = sf.data({urlName: "newsitems"});
             
             sfDataObj.get({
                 successCb: function(data){
@@ -43,7 +37,8 @@
                 }
             });
             
-        }
+        });
+        
                 
         function displayData(dataToDisplay){
             var ObjUl = $('<ul></ul>');
@@ -52,27 +47,18 @@
                 var Objli = $('<li></li>');
                 Objli.text(field["Title"]);
                 ObjUl.append(Objli);
-                $("#list-area").append(ObjUl);
+                
             });
+            $("#list-area").append(ObjUl);
         }
-            
+        
     </script>
     
     <div class="container">
         <div class="header">
-            <h3 class="text-muted">Login and Request SDK<a class="btn btn-default" href="index.html">Back</a></h3> 
+            <h3 class="text-muted">Simple SDK Request<a class="btn btn-default" href="index.html">Back</a></h3> 
         </div>
-        <div class="row">
-            <label>Username <input type="text" id="username" value="admin"></label>
-            </br>
-            <label>Password <input type="password" id="password" value="password"></label>
-            <button onclick="loginAndGetData()">Login</button>
-        </div>
-        <div class="row">
-            <div id="list-area" class="col-md-6">
-            </div>
-            <div class="col-md-6">
-            </div>
+        <div id="list-area">
         </div>
     </div>
 </body>

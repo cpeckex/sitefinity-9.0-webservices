@@ -19,12 +19,34 @@
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <script type="text/javascript" src="js\jquery-1.12.3.js"></script>
-  <script type="text/javascript" src="js\simple-jquery.js"></script>
 </head>
 <body>
     <script>
         $(function(){
-            makethecallwparameters("http://quantum.sitefinity.com/api/default/newsitems","$expand=Thumbnail");
+            var callURL = "http://quantum.sitefinity.com/api/default/newsitems";
+            var qstring = "$expand=Thumbnail"
+            
+            
+            var ObjUl = $('<ul></ul>');
+
+            $.getJSON(callURL+"?"+qstring, function(data){
+                $.each(data.value, function(i, field){
+                    var Objli = $('<li></li>');
+                    Objli.text(field.Title);
+
+                    var ObjImg = $('<img>');
+
+                    if (field.Thumbnail !=null){
+                        ObjImg.attr('src',("http://quantum.sitefinity.com"+field.Thumbnail.Url));
+                        Objli.append($("<br/>"));
+                        Objli.append(ObjImg);
+                    }
+
+                    ObjUl.append(Objli);
+                });
+                $("#list-area").append(ObjUl);
+            });
+            
         });
     </script>
     
