@@ -25,8 +25,8 @@
     <script>
            function runit() {
                $('#list-area').empty();
-               var fVal = $('#tcont').val()
-               makethecallwparameters('http://quantum.sitefinity.com/api/default/newsitems', "$filter=contains(Title,'"+fVal+"')");
+               var fVal = "'"+$('#tcont').val()+"'"
+               makethecallwparameters('http://quantum.sitefinity.com/api/default/newsitems', "$filter=contains(Title,"+fVal+")");
            }
         
     </script>
