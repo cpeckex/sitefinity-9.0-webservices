@@ -30,19 +30,30 @@
             var responseData = $('<p></p>');
             responseData.css("word-wrap", "break-word");
             $.ajax({
-                url:"http://quantum.sitefinity.com/api/default/login",
+                url:"http://quantum.sitefinity.com/api/authenticated/login",
                 type: "POST",
                 data: '{"password":"'+$('#password').val()+'", "username":"'+$('#username').val()+'"}',
                 contentType:"application/json; charset=utf-8",
                 dataType:"json"
             })  
             .done(function(returndata) {
-                responseStatus.text("Success");
-                responseData.text(returndata.value);
-                $("#response-area").append(responseStatus);
-                $("#response-area").append($('<br/>'));
-                $("#response-area").append(responseData);
-                
+                var wrap_access_token = returndata.value;
+                $.ajax({
+                    url: "http://quantum.sitefinity.com/api/authenticated/newsitems",
+                    type: "GET",
+                    beforeSend: function(xhr){xhr.setRequestHeader('Authorization', wrap_access_token);xhr.setRequestHeader('X-SF-Service-Request', 'true')}
+                })
+                .done(function(newsData){
+                    var ObjUl = $('<ul></ul>');
+                    ObjUl.addClass("ui-menu-item");
+                                                
+                    $.each(newsData.value, function(i, field){
+                        var Objli = $('<li></li>');
+                        Objli.text(field["Title"]);
+                        ObjUl.append(Objli);
+                        $("#list-area").append(ObjUl);
+                    });
+                });
             })
             .fail(function(returndata) {
                 responseStatus.text("Error");
@@ -55,16 +66,16 @@
     
     <div class="container">
         <div class="header">
-            <h3 class="text-muted">Login <a class="btn btn-default" href="index.html">Back</a></h3> 
+            <h3 class="text-muted">Login and Request <a class="btn btn-default" href="index.html">Back</a></h3> 
         </div>
         <div class="row">
-            <label>Username <input type="text" id="username"></label>
+            <label>Username <input type="text" id="username" value="admin"></label>
             </br>
-            <label>Password <input type="password" id="password"></label>
+            <label>Password <input type="password" id="password" value="password"></label>
             <button onclick="login()">Login</button>
         </div>
         <div class="row">
-            <div id="response-area" class="col-md-6">
+            <div id="list-area" class="col-md-6">
             </div>
             <div class="col-md-6">
             </div>
