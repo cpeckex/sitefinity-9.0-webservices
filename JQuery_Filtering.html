@@ -24,14 +24,19 @@
 <body>
     <script>
            function runit() {
+               
+               //Clearing the list and grabbing the value in our text box
                $('#list-area').empty();
                var fVal = "'"+$('#tcont').val()+"'"
                
+               //Setting up URL to call and query string containing OData filter functionality using the contains function
+               //http://docs.oasis-open.org/odata/odata/v4.0/errata02/os/complete/part2-url-conventions/odata-v4.0-errata02-os-part2-url-conventions-complete.html#_Toc406398094
                 var callURL = "http://quantum.sitefinity.com/api/default/newsitems";
                 var qstring = "$filter=contains(Title,"+fVal+")"
                
                 var ObjUl = $('<ul></ul>');
 
+                //The same getJSON call from Simple Request
                 $.getJSON(callURL+"?"+qstring, function(data){
                     $.each(data.value, function(i, field){
                         var Objli = $('<li></li>');

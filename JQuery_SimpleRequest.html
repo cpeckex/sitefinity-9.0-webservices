@@ -23,9 +23,13 @@
 <body>
     <script>
         $(function(){
+            //Setting call URL This service has beeen configured to allow everyone to query and has CORS set to *
             var callURL = "http://quantum.sitefinity.com/api/default/newsitems";
+            
             var ObjUl = $('<ul></ul>');
-                
+            
+            //Because this call is simple and we don't need to do anything to the headers we can use JQuery's getJSON
+            //The callback here just adds the title value from each of the news item objects to our unordered list
             $.getJSON(callURL, function(data){
                 $.each(data.value, function(i, field){
                     var Objli = $('<li></li>');

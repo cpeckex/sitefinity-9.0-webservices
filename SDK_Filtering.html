@@ -28,15 +28,19 @@
         function runit() {
             $('#list-area').empty();
             var fVal = $('#tcont').val();
+            
+            // Create Sitefinity Service object with our endpoint
             var sf = new Sitefinity({
                     serviceUrl: 'http://quantum.sitefinity.com/api/default'
             });
                 
             var sfDataObj = sf.data({urlName: "newsitems"});
             
+            //Create our query object. This one maps to $filter=contains(Title,"+fVal+") in the query string when the call is made
             var query = new Sitefinity.Query();
             var filterQuery = query.where().contains('Title', fVal).done();
                 
+            //Actually make the call with our filter query
             sfDataObj.get({
                 query: filterQuery,
                 successCb: function(data){

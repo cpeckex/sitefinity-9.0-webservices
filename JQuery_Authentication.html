@@ -28,6 +28,9 @@
             var responseStatus = $('<h3></h3>');
             var responseData = $('<p></p>');
             responseData.css("word-wrap", "break-word");
+            
+            
+            //The new webservice api has a specific endpoint for login here we are sending over the user name and pw in a post an getting back our access token
             $.ajax({
                 url:"http://quantum.sitefinity.com/api/default/login",
                 type: "POST",

@@ -25,15 +25,19 @@
     <script>
         
         function loginAndGetData(){
+            // Create Sitefinity Service object with our endpoint (this one requires the user be authenticated before making a call)
             var sf = new Sitefinity({
                 serviceUrl: 'http://quantum.sitefinity.com/api/authenticated'
             });
             
+            //The SDK has a special login function for us to use. This simplifies having to work with the headers on our calls as we did with JQuery
+            //The get data runs the get call on success 
             sf.authentication.login($('#username').val(), $('#password').val(), function(){
                     getData(sf);
             });
         }
-            
+        
+        //Function that runs the get call on our news articles. Basically the same as the simple request     
         function getData(sfObj){
             var sfDataObj = sfObj.data({urlName: "newsitems"});
             

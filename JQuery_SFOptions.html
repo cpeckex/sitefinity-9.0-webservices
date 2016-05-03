@@ -24,8 +24,11 @@
 <body>
     <script>
            function runit() {
+               //Clearing List
                $('#list-area').empty();
                
+               //Setting up URL to call and query string this time we are getting the language code from our dropdown and using sf_culture to get items from a specific language
+               //This is an example of a sitefinity specific option the other one of note for use in a query string is sf_provider so we can ask for news items from a specific provider
                 var callURL = "http://quantum.sitefinity.com/api/default/newsitems";
                 var qstring = "sf_culture="+$("#langSelected option:selected").val();
                

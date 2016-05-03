@@ -19,7 +19,6 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script type="text/javascript" src="js\jquery-1.12.3.js"></script>
-    <script type="text/javascript" src="js\simple-jquery.js"></script>
     <!--<script type="text/javascript" src="sitefinity-webservices-sdk/sitefinity-webservices-sdk.min.js"></script> -->
 </head>
 <body>
@@ -29,6 +28,8 @@
             var responseStatus = $('<h3></h3>');
             var responseData = $('<p></p>');
             responseData.css("word-wrap", "break-word");
+            
+            //This service url we are calling is configured to require login to make calls
             $.ajax({
                 url:"http://quantum.sitefinity.com/api/authenticated/login",
                 type: "POST",
@@ -36,29 +37,36 @@
                 contentType:"application/json; charset=utf-8",
                 dataType:"json"
             })  
-            .done(function(returndata) {
-                var wrap_access_token = returndata.value;
+            .done(makeAuthenticatedCall)                        //After login Query our newsarticles
+            .fail(function(returndata) {                        //On failure to login show that an error has occured
+                responseStatus.text("Error");
+                $("#response-area").append(responseStatus);
+
+            });
+            
+            //Makes a call after a login we set wrap_access_token to our token and set the X-SF-Service-Request header to true. 
+            //This lets Sitefinity know we are making a service call so it won't send us a UserIsAlreadyLoggedIn message
+            function makeAuthenticatedCall(returnData) {
+                var wrap_access_token = returnData.value;
                 $.ajax({
                     url: "http://quantum.sitefinity.com/api/authenticated/newsitems",
                     type: "GET",
                     beforeSend: function(xhr){xhr.setRequestHeader('Authorization', wrap_access_token);xhr.setRequestHeader('X-SF-Service-Request', 'true')}
                 })
-                .done(function(newsData){
-                    var ObjUl = $('<ul></ul>');
+                .done(writeToList)
+            };
+            
+            //Standard function to write our list of news articles to the page
+            function writeToList(newsData) {
+                var ObjUl = $('<ul></ul>');
                                                 
-                    $.each(newsData.value, function(i, field){
-                        var Objli = $('<li></li>');
-                        Objli.text(field["Title"]);
-                        ObjUl.append(Objli);
-                        $("#list-area").append(ObjUl);
-                    });
+                $.each(newsData.value, function(i, field){
+                    var Objli = $('<li></li>');
+                    Objli.text(field["Title"]);
+                    ObjUl.append(Objli);
+                    $("#list-area").append(ObjUl);
                 });
-            })
-            .fail(function(returndata) {
-                responseStatus.text("Error");
-                $("#response-area").append(responseStatus);
-
-            });
+            };
         }
         
     </script>

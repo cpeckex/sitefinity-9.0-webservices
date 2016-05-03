@@ -25,17 +25,22 @@
 <body>
     <script>
         $(function(){
+            // Create Sitefinity Service object with our endpoint
             var sf = new Sitefinity({
                     serviceUrl: 'http://quantum.sitefinity.com/api/default'
             });
                 
+            // Create Data object to query our news items type
             var sfDataObj = sf.data({urlName: "newsitems"});
             
+            //Create our query object, this is a bit of overhead compared to just doing the qstring in JQuery, but has some nice chaining aspects when we do more complex queries
+            //In this case as similar to JQuery we are expanding our image field Thumbnail. (Same expand from OData)
             var query = new Sitefinity.Query();
-            var filterQuery = query.expand('Thumbnail')
+            var expandQuery = query.expand('Thumbnail')
                 
+            //Actually run our get call with our query as a parameter then push it to display in our unordered list
             sfDataObj.get({
-                query: filterQuery,
+                query: expandQuery,
                 successCb: function(data){
                     displayData(data);
                 }

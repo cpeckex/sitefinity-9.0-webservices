@@ -23,12 +23,16 @@
 <body>
     <script>
         $(function(){
+            //Setting our call url and then the query string to include the Odata standard Expand Option 
+            //(http://docs.oasis-open.org/odata/odata/v4.0/errata02/os/complete/part2-url-conventions/odata-v4.0-errata02-os-part2-url-conventions-complete.html#_Toc406398162)
+            //We can use the expand option on related data types in this case an image with a field name of Thumbnail
             var callURL = "http://quantum.sitefinity.com/api/default/newsitems";
             var qstring = "$expand=Thumbnail"
             
             
             var ObjUl = $('<ul></ul>');
 
+            //This is basically the same call as the simple request but with a little additonal manipulation to add the images to our list
             $.getJSON(callURL+"?"+qstring, function(data){
                 $.each(data.value, function(i, field){
                     var Objli = $('<li></li>');

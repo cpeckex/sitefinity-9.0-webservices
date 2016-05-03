@@ -36,6 +36,7 @@
                 serviceUrl: 'http://quantum.sitefinity.com/api/authenticated'
             });
             
+            //The SDK has a special login function for us to use. There is more here to show the token we get back on the page.
             sf.authentication.login($('#username').val(), $('#password').val(), function success(){
                     responseStatus.text("Success");
                     responseData.text(sf.authentication.getToken());
