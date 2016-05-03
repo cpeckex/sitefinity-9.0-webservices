@@ -27,11 +27,13 @@
         
         function login(){
             
+            //Clear out response area and set up tags to hold the Data we get in the response
             $('#response-area').empty();
             var responseStatus = $('<h3></h3>');
             var responseData = $('<p></p>');
-            responseData.css("word-wrap", "break-word");          
-            
+            responseData.css("word-wrap", "break-word");    
+                  
+            // Create Sitefinity Service object with our endpoint
             var sf = new Sitefinity({
                 serviceUrl: 'http://quantum.sitefinity.com/api/authenticated'
             });

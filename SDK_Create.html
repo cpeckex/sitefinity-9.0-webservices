@@ -24,14 +24,18 @@
 <body>
     <script>
         function loginAndGetData(){
+            
+            // Create Sitefinity Service object with our endpoint
             var sf = new Sitefinity({
                 serviceUrl: 'http://quantum.sitefinity.com/api/default'
             });
             
+            //Object to be Uploaded in Json There are examples of the strucutre of these objects in the auto generated docs for your endpoint
             var newsItemData=  {
                 "Title": 'New news title'
                 };
             
+            //Login to SF and send object with the create method
             sf.authentication.login($('#username').val(), $('#password').val(), function(){
                 var sfDataObj = sf.data({urlName: "newsitems"});
                 sfDataObj.create({
